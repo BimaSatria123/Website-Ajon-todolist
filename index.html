@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UI/UX Master | UI/UX Roadmap</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              pink: '#FF2A6D',
+              blue: '#05D9E8',
+              purple: '#D300C5',
+              green: '#00FF85',
+              yellow: '#F9F002'
+            },
+            darkBg: '#0D0221'
+          },
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+            rajdhani: ['Rajdhani', 'sans-serif']
+          },
+          boxShadow: {
+            'neon-pink': '0 0 10px #FF2A6D, 0 0 20px #FF2A6D, 0 0 40px #FF2A6D',
+            'neon-blue': '0 0 10px #05D9E8, 0 0 20px #05D9E8, 0 0 40px #05D9E8',
+            'neon-purple': '0 0 10px #D300C5, 0 0 20px #D300C5, 0 0 40px #D300C5',
+            'neon-green': '0 0 10px #00FF85, 0 0 20px #00FF85, 0 0 40px #00FF85',
+            'neon-yellow': '0 0 10px #F9F002, 0 0 20px #F9F002, 0 0 40px #F9F002'
+          },
+          animation: {
+            'flicker': 'flicker 3s linear infinite',
+            'text-glow': 'text-glow 1.5s ease-in-out infinite alternate',
+            'scanline': 'scanline 10s linear infinite',
+            'pulse-slow': 'pulse 6s infinite',
+            'border-glow': 'border-glow 2s linear infinite'
+          },
+          keyframes: {
+            flicker: {
+              '0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%': { 
+                opacity: '0.99',
+                textShadow: '0 0 10px currentColor'
+              },
+              '20%, 21.999%, 63%, 63.999%, 65%, 69.999%': { 
+                opacity: '0.4',
+                textShadow: 'none'
+              }
+            },
+            'text-glow': {
+              'from': { textShadow: '0 0 5px currentColor' },
+              'to': { textShadow: '0 0 15px currentColor, 0 0 30px currentColor' }
+            },
+            'scanline': {
+              '0%': { transform: 'translateY(0%)' },
+              '100%': { transform: 'translateY(100vh)' }
+            },
+            'border-glow': {
+              '0%': { borderColor: '#FF2A6D' },
+              '25%': { borderColor: '#05D9E8' },
+              '50%': { borderColor: '#D300C5' },
+              '75%': { borderColor: '#00FF85' },
+              '100%': { borderColor: '#F9F002' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+<body class="bg-darkBg text-white font-rajdhani min-h-screen overflow-x-hidden">
+  <!-- [Background elements same as original] -->
+  
+  <div class="relative z-10 min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
+    <!-- Header -->
+    <header class="text-center mb-8 sm:mb-12">
+      <h1 class="text-5xl sm:text-6xl font-bold mb-2 font-orbitron neon-text" style="color: #05D9E8;">
+        UX<span class="neon-pink">Master</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-cyber-blue font-medium tracking-wider">
+        UI/UX LEARNING ROADMAP
+      </p>
+      
+      <!-- Color theme selector -->
+      <div class="flex justify-center space-x-3 mt-6">
+        <button onclick="changeTheme('pink')" class="w-8 h-8 rounded-full bg-cyber-pink hover:shadow-neon-pink transition-all"></button>
+        <button onclick="changeTheme('blue')" class="w-8 h-8 rounded-full bg-cyber-blue hover:shadow-neon-blue transition-all"></button>
+        <button onclick="changeTheme('purple')" class="w-8 h-8 rounded-full bg-cyber-purple hover:shadow-neon-purple transition-all"></button>
+        <button onclick="changeTheme('green')" class="w-8 h-8 rounded-full bg-cyber-green hover:shadow-neon-green transition-all"></button>
+        <button onclick="changeTheme('yellow')" class="w-8 h-8 rounded-full bg-cyber-yellow hover:shadow-neon-yellow transition-all"></button>
+      </div>
+    </header>
+    
+    <!-- Progress tracker -->
+    <div class="w-full max-w-2xl mb-8 bg-gray-900/80 backdrop-blur-md rounded-xl p-4 border border-cyber-blue/30 cyber-border">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-sm uppercase tracking-widest text-cyber-blue font-semibold">Progress Tracker</h3>
+        <span id="progressText" class="text-cyber-blue font-bold">0%</span>
+      </div>
+      <div class="relative h-3 bg-gray-800 rounded-full overflow-hidden">
+        <div id="progressBar" class="h-full bg-gradient-to-r from-cyber-blue to-cyber-green transition-all duration-500" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <div class="flex flex-col lg:flex-row w-full max-w-6xl gap-6">
+      <!-- Month Selector -->
+      <div id="monthSelector" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-3 w-full lg:w-48">
+        <!-- Generated by JS -->
+      </div>
+      
+      <!-- Todo List Section -->
+      <div id="todoList" class="flex-1 bg-gray-900/80 backdrop-blur-md p-6 rounded-xl border border-cyber-blue/30 cyber-border scanlines">
+        <div class="flex items-center justify-between mb-6">
+          <h2 id="currentMonthTitle" class="text-2xl font-bold font-orbitron text-cyber-blue">SELECT A MONTH</h2>
+          <div id="monthStats" class="hidden text-sm">
+            <span id="completedTasks" class="text-cyber-green">0</span>
+            <span class="text-gray-400"> / </span>
+            <span id="totalTasks">0</span>
+            <span class="text-gray-400"> tasks</span>
+          </div>
+        </div>
+        
+        <div id="tasksContainer" class="space-y-3">
+          <div class="text-center py-12 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-cyber-blue/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            <p>Select a month from the menu to view tasks</p>
+          </div>
+        </div>
+        
+        <div id="monthControls" class="hidden mt-6 flex flex-wrap gap-3">
+          <button id="completeMonthBtn" class="px-4 py-2 rounded font-semibold bg-gradient-to-r from-cyber-green to-cyber-blue text-darkBg hover:shadow-neon-green transition-all glow-on-hover">
+            ✅ COMPLETE MONTH
+          </button>
+          <button id="resetMonthBtn" class="px-4 py-2 rounded font-semibold bg-gradient-to-r from-cyber-pink to-cyber-purple text-white hover:shadow-neon-pink transition-all glow-on-hover">
+            🔁 RESET MONTH
+          </button>
+          <button id="addTaskBtn" class="px-4 py-2 rounded font-semibold bg-gray-700 text-white hover:bg-gray-600 transition-all glow-on-hover">
+            ➕ CUSTOM TASK
+          </button>
+        </div>
+      </div>
+      
+      <!-- Achievement panel -->
+      <div id="achievementPanel" class="hidden lg:block w-72 bg-gray-900/80 backdrop-blur-md p-4 rounded-xl border border-cyber-blue/30 cyber-border">
+        <h3 class="text-lg font-bold font-orbitron text-cyber-blue mb-4">ACHIEVEMENTS</h3>
+        <div id="achievementsList" class="space-y-4">
+          <div class="achievement-item opacity-50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
+                🔒
+              </div>
+              <div>
+                <h4 class="font-medium">First Steps</h4>
+                <p class="text-xs text-gray-400">Complete Month 1</p>
+              </div>
+            </div>
+          </div>
+          <!-- More achievements will be added by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme color variable
+    let currentTheme = 'blue';
+    let currentSelectedMonth = null;
+    
+    // Roadmap data - UI/UX 6 Month Plan
+    const roadmap = [
+      { 
+        month: 1, 
+        title: "Dasar-Dasar UI/UX", 
+        tasks: [
+          "Pelajari perbedaan UI vs UX",
+          "Pahami Design Thinking Process",
+          "Install Figma & pelajari dasar-dasarnya",
+          "Pelajari prinsip desain visual (Grid, Typography, Color Theory)",
+          "Redesign halaman login sederhana"
+        ] 
+      },
+      { 
+        month: 2, 
+        title: "UX Research & Wireframing", 
+        tasks: [
+          "Pelajari metode UX Research (User Interview, Surveys)",
+          "Buat User Persona",
+          "Pelajari Information Architecture",
+          "Praktik Card Sorting",
+          "Buat wireframe untuk aplikasi to-do list"
+        ] 
+      },
+      { 
+        month: 3, 
+        title: "UI Design & Prototyping", 
+        tasks: [
+          "Pelajari Design System & Components",
+          "Buat Style Guide",
+          "Pelajari Atomic Design",
+          "Buat high-fidelity mockup",
+          "Buat prototype interaktif di Figma"
+        ] 
+      },
+      { 
+        month: 4, 
+        title: "Usability Testing", 
+        tasks: [
+          "Pelajari metode Usability Testing",
+          "Lakukan A/B Testing sederhana",
+          "Analisis hasil testing dengan Google Analytics",
+          "Iterasi desain berdasarkan feedback",
+          "Pelajari dasar UX Writing"
+        ] 
+      },
+      { 
+        month: 5, 
+        title: "Advanced UI/UX", 
+        tasks: [
+          "Pelajari Motion Design dasar",
+          "Eksplor 3D di Spline",
+          "Pelajari Microcopy",
+          "Buat 2 case study lengkap",
+          "Mulai bangun portfolio"
+        ] 
+      },
+      { 
+        month: 6, 
+        title: "Portfolio & Job Ready", 
+        tasks: [
+          "Selesaikan portfolio website",
+          "Optimasi profil LinkedIn",
+          "Buat akun di Dribbble/Behance",
+          "Apply ke 10+ lowongan",
+          "Persiapan interview UI/UX"
+        ] 
+      }
+    ];
+    
+    // Achievements data
+    const achievements = [
+      { id: 'month1', title: 'First Steps', description: 'Complete Month 1', icon: '🚀', month: 1 },
+      { id: 'month3', title: 'Design Pro', description: 'Complete Month 3', icon: '🎨', month: 3 },
+      { id: 'month5', title: 'Portfolio Starter', description: 'Complete Month 5', icon: '📁', month: 5 },
+      { id: 'halfway', title: 'Halfway There', description: 'Complete 3 months', icon: '🎯' },
+      { id: 'complete', title: 'UX Graduate', description: 'Complete all months', icon: '🏆' }
+    ];
+    
+    // [Rest of the JavaScript remains the same structurally, just replace all 'day' references with 'month']
+    // [The functionality is identical, just updated for the UI/UX roadmap]
+    
+    // DOM elements
+    const selector = document.getElementById("monthSelector");
+    const tasksContainer = document.getElementById("tasksContainer");
+    const monthControls = document.getElementById("monthControls");
+    const currentMonthTitle = document.getElementById("currentMonthTitle");
+    const monthStats = document.getElementById("monthStats");
+    const completedTasksEl = document.getElementById("completedTasks");
+    const totalTasksEl = document.getElementById("totalTasks");
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+    const achievementPanel = document.getElementById("achievementPanel");
+    const achievementsList = document.getElementById("achievementsList");
+    const completeMonthBtn = document.getElementById("completeMonthBtn");
+    const resetMonthBtn = document.getElementById("resetMonthBtn");
+    const addTaskBtn = document.getElementById("addTaskBtn");
+    
+    // Initialize the app
+    function init() {
+      renderMonthButtons();
+      updateProgress();
+      renderAchievements();
+      setupEventListeners();
+    }
+    
+    // Render month selection buttons
+    function renderMonthButtons() {
+      selector.innerHTML = '';
+      
+      roadmap.forEach(({ month, title }) => {
+        const isComplete = localStorage.getItem(`month${month}-complete`) === "true";
+        const btn = document.createElement("button");
+        
+        btn.innerHTML = `
+          <div class="flex items-center justify-between w-full">
+            <span>MONTH ${month}</span>
+            ${isComplete ? '<span class="text-cyber-green">✓</span>' : ''}
+          </div>
+          <div class="text-xs text-gray-400 text-left w-full mt-1">${title}</div>
+        `;
+        
+        btn.className = `px-4 py-3 rounded-lg font-medium text-left transition-all glow-on-hover ${
+          isComplete 
+            ? 'bg-cyber-green/10 border border-cyber-green/20' 
+            : 'bg-gray-800 hover:bg-gray-700 border border-gray-700'
+        }`;
+        
+        btn.onclick = () => {
+          currentSelectedMonth = month;
+          showTasks(month);
+          // Update active button style
+          document.querySelectorAll('#monthSelector button').forEach(b => {
+            b.classList.remove('border-cyber-blue', 'bg-gray-700/50');
+          });
+          btn.classList.add('border-cyber-blue', 'bg-gray-700/50');
+        };
+        
+        selector.appendChild(btn);
+      });
+    }
+    
+    // Show tasks for selected month
+    function showTasks(month) {
+      const data = roadmap.find(r => r.month === month);
+      if (!data) return;
+      
+      // Update UI
+      currentMonthTitle.textContent = `MONTH ${month}: ${data.title}`;
+      currentMonthTitle.className = `text-2xl font-bold font-orbitron text-cyber-${currentTheme}`;
+      monthStats.classList.remove('hidden');
+      
+      // Show controls
+      monthControls.classList.remove('hidden');
+      
+      // Clear previous tasks
+      tasksContainer.innerHTML = '';
+      
+      // Update task stats
+      let completedCount = 0;
+      
+      // Render tasks
+      data.tasks.forEach((task, idx) => {
+        const id = `month${month}-task${idx}`;
+        const checked = localStorage.getItem(id) === "true";
+        if (checked) completedCount++;
+        
+        const taskEl = document.createElement("div");
+        taskEl.className = `task-item flex items-center gap-3 p-3 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 transition-all border border-gray-700`;
+        
+        taskEl.innerHTML = `
+          <input type="checkbox" id="${id}" ${checked ? 'checked' : ''} 
+            class="cyber-checkbox appearance-none">
+          <label for="${id}" class="flex-1 cursor-pointer ${checked ? 'line-through text-gray-500' : 'text-gray-300'}">
+            ${task}
+          </label>
+          ${checked ? `<span class="text-cyber-green text-sm">DONE</span>` : ''}
+        `;
+        
+        const checkbox = taskEl.querySelector('input');
+        checkbox.onchange = () => {
+          localStorage.setItem(id, checkbox.checked);
+          updateTaskStats(month);
+          if (checkbox.checked) {
+            taskEl.querySelector('label').classList.add('line-through', 'text-gray-500');
+            taskEl.querySelector('label').classList.remove('text-gray-300');
+            const doneSpan = document.createElement('span');
+            doneSpan.className = 'text-cyber-green text-sm';
+            doneSpan.textContent = 'DONE';
+            taskEl.appendChild(doneSpan);
+          } else {
+            taskEl.querySelector('label').classList.remove('line-through', 'text-gray-500');
+            taskEl.querySelector('label').classList.add('text-gray-300');
+            const doneSpan = taskEl.querySelector('.text-cyber-green');
+            if (doneSpan) doneSpan.remove();
+          }
+        };
+        
+        tasksContainer.appendChild(taskEl);
+      });
+      
+      // Update stats
+      completedTasksEl.textContent = completedCount;
+      totalTasksEl.textContent = data.tasks.length;
+      
+      // Set up month controls
+      completeMonthBtn.onclick = () => {
+        localStorage.setItem(`month${month}-complete`, "true");
+        // Mark all tasks as complete
+        data.tasks.forEach((_, idx) => {
+          localStorage.setItem(`month${month}-task${idx}`, "true");
+        });
+        updateProgress();
+        renderMonthButtons();
+        showTasks(month);
+      };
+      
+      resetMonthBtn.onclick = () => {
+        localStorage.removeItem(`month${month}-complete`);
+        // Remove all task completions
+        data.tasks.forEach((_, idx) => {
+          localStorage.removeItem(`month${month}-task${idx}`);
+        });
+        updateProgress();
+        renderMonthButtons();
+        showTasks(month);
+      };
+      
+      addTaskBtn.onclick = () => {
+        const newTask = prompt('Enter a custom task for this month:');
+        if (newTask) {
+          data.tasks.push(newTask);
+          showTasks(month);
+        }
+      };
+    }
+    
+    // Update task completion stats
+    function updateTaskStats(month) {
+      const data = roadmap.find(r => r.month === month);
+      let completedCount = 0;
+      
+      data.tasks.forEach((_, idx) => {
+        if (localStorage.getItem(`month${month}-task${idx}`) === "true") {
+          completedCount++;
+        }
+      });
+      
+      completedTasksEl.textContent = completedCount;
+      
+      // Automatically mark month as complete if all tasks are done
+      if (completedCount === data.tasks.length) {
+        localStorage.setItem(`month${month}-complete`, "true");
+        renderMonthButtons();
+        updateProgress();
+      }
+    }
+    
+    // Calculate and update overall progress
+    function updateProgress() {
+      let totalTasks = 0;
+      let completedTasks = 0;
+      
+      roadmap.forEach(({ month, tasks }) => {
+        totalTasks += tasks.length;
+        
+        // Check if month is marked complete
+        if (localStorage.getItem(`month${month}-complete`)) {
+          completedTasks += tasks.length;
+        } else {
+          // Count individual completed tasks
+          tasks.forEach((_, idx) => {
+            if (localStorage.getItem(`month${month}-task${idx}`)) {
+              completedTasks++;
+            }
+          });
+        }
+      });
+      
+      const percentage = Math.round((completedTasks / totalTasks) * 100);
+      progressBar.style.width = `${percentage}%`;
+      progressText.textContent = `${percentage}%`;
+      
+      // Update progress bar gradient based on theme
+      progressBar.className = `h-full transition-all duration-500 bg-gradient-to-r from-cyber-${currentTheme} to-cyber-${getComplementaryColor(currentTheme)}`;
+    }
+    
+    // Render achievements
+    function renderAchievements() {
+      achievementsList.innerHTML = '';
+      
+      achievements.forEach(achievement => {
+        const achieved = checkAchievement(achievement);
+        const achievementEl = document.createElement('div');
+        achievementEl.className = `achievement-item ${achieved ? '' : 'opacity-50'}`;
+        
+        achievementEl.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full ${achieved ? `bg-cyber-${currentTheme}/20` : 'bg-gray-700'} flex items-center justify-center border ${achieved ? `border-cyber-${currentTheme}` : 'border-gray-600'}">
+              ${achievement.icon}
+            </div>
+            <div>
+              <h4 class="font-medium ${achieved ? `text-cyber-${currentTheme}` : 'text-gray-300'}">${achievement.title}</h4>
+              <p class="text-xs ${achieved ? 'text-gray-300' : 'text-gray-500'}">${achievement.description}</p>
+            </div>
+          </div>
+        `;
+        
+        achievementsList.appendChild(achievementEl);
+      });
+      
+      // Show achievement panel if any achievements are unlocked
+      const anyAchieved = achievements.some(checkAchievement);
+      if (anyAchieved) {
+        achievementPanel.classList.remove('hidden');
+      }
+    }
+    
+    // Check if achievement is unlocked
+    function checkAchievement(achievement) {
+      if (achievement.month) {
+        return localStorage.getItem(`month${achievement.month}-complete`) === "true";
+      } else if (achievement.id === 'halfway') {
+        const completedMonths = roadmap.filter(month => 
+          localStorage.getItem(`month${month.month}-complete`) === "true"
+        ).length;
+        return completedMonths >= 3;
+      } else if (achievement.id === 'complete') {
+        return roadmap.every(month => 
+          localStorage.getItem(`month${month.month}-complete`) === "true"
+        );
+      }
+      return false;
+    }
+    
+    // Change theme color
+    function changeTheme(color) {
+      currentTheme = color;
+      
+      // Update all elements with theme colors
+      document.querySelectorAll('[class*="text-cyber-"]').forEach(el => {
+        const classes = el.className.split(' ');
+        const newClasses = classes.map(cls => {
+          if (cls.startsWith('text-cyber-')) {
+            return `text-cyber-${color}`;
+          }
+          if (cls.startsWith('bg-cyber-')) {
+            return `bg-cyber-${color}`;
+          }
+          if (cls.startsWith('border-cyber-')) {
+            return `border-cyber-${color}`;
+          }
+          if (cls.startsWith('from-cyber-') || cls.startsWith('to-cyber-')) {
+            return cls.replace(/cyber-\w+/g, `cyber-${color}`);
+          }
+          if (cls.startsWith('shadow-neon-')) {
+            return `shadow-neon-${color}`;
+          }
+          return cls;
+        });
+        el.className = newClasses.join(' ');
+      });
+      
+      // Update progress bar with new gradient
+      updateProgress();
+      
+      // Re-render achievements with new colors
+      renderAchievements();
+      
+      // Update current month title if one is selected
+      if (currentSelectedMonth) {
+        currentMonthTitle.className = `text-2xl font-bold font-orbitron text-cyber-${color}`;
+      }
+    }
+    
+    // Get complementary color for gradients
+    function getComplementaryColor(color) {
+      const complements = {
+        pink: 'purple',
+        blue: 'green',
+        purple: 'pink',
+        green: 'blue',
+        yellow: 'pink'
+      };
+      return complements[color] || 'blue';
+    }
+    
+    // Set up event listeners
+    function setupEventListeners() {
+      // Nothing needed here for now
+    }
+    
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
